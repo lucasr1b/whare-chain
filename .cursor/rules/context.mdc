@@ -6,6 +6,18 @@ alwaysApply: true
 
 # WhareChain - Project Information
 
+This is a NextJS project that will utilize web3 implementation that uses smart contracts.
+
+### Target audience
+General public, government
+
+### Users
+Public user - access to public data, submit application for eligibility
+Waitlisted uesr - View application status, change circumstances, review housing offer/accept
+Beneficiaries - View current housing, request for maintenance/maintenance history, terminate tenancy, change house
+CHP (Community Housing Provider) - View waitlited applicants, offer hosuing, view available prorties, add and remove units, 
+
+
 ### Problem
 New Zealand’s social housing system faces inefficiencies, long waitlists, and mismanagement, exacerbating housing insecurity. The challenge is to increase transparency, efficiency, and fairness in social housing allocation while ensuring legal compliance and robust security.
 

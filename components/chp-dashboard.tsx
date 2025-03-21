@@ -273,20 +273,12 @@ export function CHPDashboard() {
                         <TableCell>
                           <div className="flex gap-2">
                             <Button
-                              variant="ghost"
+                              variant="outline"
                               size="sm"
                               onClick={() => viewUserDetails(user)}
                               className="h-8 px-2"
                             >
-                              View
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => openOfferHousing(user)}
-                              className="h-8 px-2"
-                            >
-                              Offer Housing
+                              View Applicant
                             </Button>
                           </div>
                         </TableCell>
