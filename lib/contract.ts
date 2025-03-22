@@ -1,7 +1,7 @@
 import { client } from "./thirdWebClient";
 import { baseSepolia } from "thirdweb/chains";
 
-export const CONTRACT_ADDRESS = "0x1F3DEF46d826bA093e323e892627661558dB1327";
+export const CONTRACT_ADDRESS = "0xCD6ef2e4e4d27904dF912838d2aeF110ab78FC15";
 
 // Contract ABI - this should match your deployed contract
 export const CONTRACT_ABI = [

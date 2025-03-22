@@ -74,7 +74,7 @@ const userData = {
 }
 
 export function WaitlistedUserDashboard() {
-  const { userId } = useUser()
+  const { userId, setUserRole } = useUser()
   const [activeTab, setActiveTab] = useState("status")
   const [updateCircumstancesOpen, setUpdateCircumstancesOpen] = useState(false)
   const [housingOfferOpen, setHousingOfferOpen] = useState(false)
@@ -93,9 +93,7 @@ export function WaitlistedUserDashboard() {
   const handleHousingOfferResponse = () => {
     // In a real app, this would send data to an API
     if (offerResponse === "accept") {
-      alert("You have accepted the housing offer. A case manager will contact you soon with next steps.")
-    } else {
-      alert("You have declined the housing offer. Your position on the waitlist will be maintained.")
+      setUserRole("beneficiary")
     }
     setHousingOfferOpen(false)
   }

@@ -1,48 +1,43 @@
 "use client";
-import { useActiveAccount, useWalletBalance } from "thirdweb/react";
-import { client } from '@/lib/thirdWebClient';
-import { baseSepolia } from "thirdweb/chains";
-import { ConnectButton } from "thirdweb/react";
-import HousingRegistry from "../components/HousingRegistry";
+import { useState } from "react";
+import { HousingRegistry } from "@/components/housing-registry";
+import { WaitlistStatus } from "@/components/waitlist-status";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SiteHeader } from "@/components/site-header";
 
-const DataPage = () => {
-  const account = useActiveAccount();
-  const { data: balance, isLoading } = useWalletBalance({
-    client,
-    chain: baseSepolia,
-    address: account?.address,
-  });
-
-  if (!account) {
-    return (
-      <div className="p-4">
-        <p className="mb-4">Please connect your wallet first</p>
-        <ConnectButton client={client} />
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="p-4">
-        <p>Loading balance...</p>
-      </div>
-    );
-  }
+export default function DataPage() {
+  const [activeTab, setActiveTab] = useState("housing");
 
   return (
-    <div className="p-4">
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-2">Wallet Information</h2>
-        <p>Wallet address: {account.address}</p>
-        <p>
-          Wallet balance: {balance?.displayValue} {balance?.symbol}
-        </p>
-      </div>
-
-      <HousingRegistry />
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader />
+      <main className="flex-1 p-6">
+        <div className="container mx-auto">
+          <Card>
+            <CardHeader>
+              <CardTitle>Data Management</CardTitle>
+              <CardDescription>
+                Manage housing registry and waitlist data
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs defaultValue="housing" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="housing">Housing Registry</TabsTrigger>
+                  <TabsTrigger value="waitlist">Waitlist</TabsTrigger>
+                </TabsList>
+                <TabsContent value="housing">
+                  <HousingRegistry />
+                </TabsContent>
+                <TabsContent value="waitlist">
+                  <WaitlistStatus />
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
     </div>
   );
 }
-
-export default DataPage;

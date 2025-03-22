@@ -6,6 +6,8 @@ alwaysApply: true
 ### Network
 Base Sepolia Testnet
 
+We are using "thirdweb" and not "thirdweb-dev", refer to the docs for Third Web.
+
 # WhareChain - Project Information
 
 This is a NextJS project that will utilize web3 implementation that uses smart contracts.

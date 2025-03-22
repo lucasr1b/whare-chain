@@ -22,6 +22,12 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useActiveAccount } from "thirdweb/react"
+import { client } from "@/lib/thirdWebClient"
+import { CONTRACT_ADDRESS } from "@/lib/contract"
+import { baseSepolia } from "thirdweb/chains"
+import { getContract, prepareContractCall, sendTransaction } from "thirdweb"
+import { ConnectButton } from "thirdweb/react"
 
 // Sample data for CHP
 const waitlistedUsers = [
@@ -109,6 +115,7 @@ const availableProperties = [
 
 export function CHPDashboard() {
   const { userId } = useUser()
+  const account = useActiveAccount()
   const [activeTab, setActiveTab] = useState("waitlist")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedUser, setSelectedUser] = useState<any>(null)
@@ -119,6 +126,7 @@ export function CHPDashboard() {
   const [selectedPropertyForOffer, setSelectedPropertyForOffer] = useState("")
   const [addPropertyOpen, setAddPropertyOpen] = useState(false)
   const [newProperty, setNewProperty] = useState({
+    id: "",
     address: "",
     bedrooms: "2",
     bathrooms: "1",
@@ -126,6 +134,9 @@ export function CHPDashboard() {
   })
   const [propertyToRemove, setPropertyToRemove] = useState<string | null>(null)
   const [removePropertyOpen, setRemovePropertyOpen] = useState(false)
+  const [isAddingProperty, setIsAddingProperty] = useState(false)
+  const [addPropertyError, setAddPropertyError] = useState<string | null>(null)
+  const [properties, setProperties] = useState(availableProperties)
 
   const filteredWaitlist = waitlistedUsers.filter(
     (user) =>
@@ -134,7 +145,7 @@ export function CHPDashboard() {
       user.specialRequirements.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  const filteredProperties = availableProperties.filter(
+  const filteredProperties = properties.filter(
     (property) =>
       property.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       property.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -153,9 +164,87 @@ export function CHPDashboard() {
 
   const handleHousingOffer = () => {
     // In a real app, this would send data to an API
-    const property = availableProperties.find((p) => p.id === selectedPropertyForOffer)
+    const property = properties.find((p) => p.id === selectedPropertyForOffer)
     alert(`Housing offer for ${property?.address} sent to applicant ${selectedUser.did}`)
     setOfferHousingOpen(false)
+  }
+
+  const handleAddProperty = async () => {
+    if (!account) {
+      setAddPropertyError("Please connect your wallet first")
+      return
+    }
+
+    try {
+      setIsAddingProperty(true)
+      setAddPropertyError(null)
+
+      // Convert features string to array
+      const featuresArray = newProperty.features.split(",").map(feature => feature.trim())
+
+      // Create contract instance
+      const contract = await getContract({
+        client,
+        chain: baseSepolia,
+        address: CONTRACT_ADDRESS,
+      })
+
+      const tx = await prepareContractCall({
+        contract,
+        method: "function addProperty(string _id, string _houseAddress, uint256 _bedrooms, uint256 _bathrooms, string[] _features)",
+        params: [
+          newProperty.id,
+          newProperty.address,
+          BigInt(newProperty.bedrooms),
+          BigInt(newProperty.bathrooms),
+          featuresArray,
+        ],
+      })
+
+      await sendTransaction({
+        account,
+        transaction: tx,
+      })
+
+      // Add property optimistically to the list
+      const newPropertyData = {
+        id: newProperty.id,
+        address: newProperty.address,
+        bedrooms: parseInt(newProperty.bedrooms),
+        bathrooms: parseInt(newProperty.bathrooms),
+        status: "Available",
+        features: featuresArray,
+      }
+      setProperties(prevProperties => [...prevProperties, newPropertyData])
+
+      // Reset form and close dialog
+      setNewProperty({
+        id: "",
+        address: "",
+        bedrooms: "2",
+        bathrooms: "1",
+        features: "",
+      })
+      setAddPropertyOpen(false)
+    } catch (err) {
+      setAddPropertyError(err instanceof Error ? err.message : "Failed to add property")
+    } finally {
+      setIsAddingProperty(false)
+    }
+  }
+
+  if (!account) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">🏢 Community Housing Provider</h1>
+          <ConnectButton client={client} />
+        </div>
+        <p className="text-muted-foreground">
+          Please connect your wallet to manage properties and waitlist.
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -430,7 +519,7 @@ export function CHPDashboard() {
                     <SelectValue placeholder="Select a property" />
                   </SelectTrigger>
                   <SelectContent>
-                    {availableProperties.map((property) => (
+                    {properties.map((property) => (
                       <SelectItem key={property.id} value={property.id}>
                         {property.address} ({property.bedrooms} bed, {property.bathrooms} bath)
                       </SelectItem>
@@ -442,9 +531,9 @@ export function CHPDashboard() {
               {selectedPropertyForOffer && (
                 <div className="space-y-2 border rounded-md p-3 bg-muted/50">
                   <h3 className="font-medium">Selected Property</h3>
-                  <p>{availableProperties.find((p) => p.id === selectedPropertyForOffer)?.address}</p>
+                  <p>{properties.find((p) => p.id === selectedPropertyForOffer)?.address}</p>
                   <div className="text-sm text-muted-foreground">
-                    {availableProperties.find((p) => p.id === selectedPropertyForOffer)?.features.join(", ")}
+                    {properties.find((p) => p.id === selectedPropertyForOffer)?.features.join(", ")}
                   </div>
                 </div>
               )}
@@ -491,6 +580,15 @@ export function CHPDashboard() {
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
+              <Label>Property ID</Label>
+              <Input
+                placeholder="e.g., H1234"
+                value={newProperty.id}
+                onChange={(e) => setNewProperty({ ...newProperty, id: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label>Property Address</Label>
               <Input
                 placeholder="e.g., 123 Main Street, Auckland"
@@ -514,7 +612,7 @@ export function CHPDashboard() {
                     <SelectItem value="2">2</SelectItem>
                     <SelectItem value="3">3</SelectItem>
                     <SelectItem value="4">4</SelectItem>
-                    <SelectItem value="5+">5+</SelectItem>
+                    <SelectItem value="5">5</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -532,7 +630,7 @@ export function CHPDashboard() {
                     <SelectItem value="1">1</SelectItem>
                     <SelectItem value="2">2</SelectItem>
                     <SelectItem value="3">3</SelectItem>
-                    <SelectItem value="4+">4+</SelectItem>
+                    <SelectItem value="4">4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -547,6 +645,14 @@ export function CHPDashboard() {
                 className="min-h-[80px]"
               />
             </div>
+
+            {addPropertyError && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{addPropertyError}</AlertDescription>
+              </Alert>
+            )}
           </div>
 
           <DialogFooter>
@@ -554,20 +660,10 @@ export function CHPDashboard() {
               Cancel
             </Button>
             <Button
-              onClick={() => {
-                // In a real app, this would send data to an API
-                alert(`Property at ${newProperty.address} has been added to the registry.`)
-                setAddPropertyOpen(false)
-                setNewProperty({
-                  address: "",
-                  bedrooms: "2",
-                  bathrooms: "1",
-                  features: "",
-                })
-              }}
-              disabled={!newProperty.address}
+              onClick={handleAddProperty}
+              disabled={!newProperty.id || !newProperty.address || isAddingProperty}
             >
-              Add Property
+              {isAddingProperty ? "Adding Property..." : "Add Property"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -582,7 +678,7 @@ export function CHPDashboard() {
           </DialogHeader>
 
           <div className="py-4">
-            <p className="font-medium">{availableProperties.find((p) => p.id === propertyToRemove)?.address}</p>
+            <p className="font-medium">{properties.find((p) => p.id === propertyToRemove)?.address}</p>
             <p className="text-sm text-muted-foreground mt-1">Property ID: {propertyToRemove}</p>
 
             <Alert className="bg-primary/20 text-primary border-primary/50 relative">

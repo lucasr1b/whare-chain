@@ -23,6 +23,57 @@ const generateAucklandCoordinates = () => {
   return [lng, lat] as [number, number];
 };
 
+function LoadingSkeleton() {
+  return (
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader />
+      <main className="flex-1 p-6">
+        <div className="container mx-auto">
+          <Card className="mb-6">
+            <CardHeader>
+              <div className="h-6 w-48 bg-muted animate-pulse rounded" />
+              <div className="h-4 w-64 bg-muted animate-pulse rounded mt-2" />
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, index) => (
+                  <Card key={index}>
+                    <CardContent className="p-4">
+                      <div className="h-8 w-16 bg-muted animate-pulse rounded mb-2" />
+                      <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="mb-6">
+            <CardHeader>
+              <div className="h-6 w-64 bg-muted animate-pulse rounded" />
+              <div className="h-4 w-72 bg-muted animate-pulse rounded mt-2" />
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col md:flex-row gap-4 mb-4">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <div className="h-10 bg-muted animate-pulse rounded w-full" />
+                  </div>
+                </div>
+                <div className="w-full md:w-[180px] h-10 bg-muted animate-pulse rounded" />
+              </div>
+              <div className="rounded-lg overflow-hidden border">
+                <div className="w-full h-[600px] bg-muted animate-pulse" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    </div>
+  );
+}
+
 export default function HousingMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -30,31 +81,46 @@ export default function HousingMap() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [housingData, setHousingData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const data = Array.from({ length: 200 }, (_, index) => {
-      const coordinates = generateAucklandCoordinates();
-      const unitTypes = ['Studio', '1 Bedroom', '2 Bedroom', '3 Bedroom', '4+ Bedroom'];
-      const unitType = unitTypes[Math.floor(Math.random() * unitTypes.length)];
-      const bedrooms = unitType === 'Studio' ? 0 : parseInt(unitType);
-      const bathrooms = Math.max(1, Math.floor(bedrooms / 2));
-      const area = `${Math.floor(30 + bedrooms * 15)}m²`;
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
-      return {
-        id: `AKL-${String(index + 1).padStart(3, '0')}`,
-        coordinates,
-        unitType,
-        bedrooms,
-        bathrooms,
-        area,
-        status: Math.random() > 0.2 ? 'Available' : 'Occupied',
-      };
-    });
-    setHousingData(data);
+        const data = Array.from({ length: 200 }, (_, index) => {
+          const coordinates = generateAucklandCoordinates();
+          const unitTypes = ['Studio', '1 Bedroom', '2 Bedroom', '3 Bedroom', '4+ Bedroom'];
+          const unitType = unitTypes[Math.floor(Math.random() * unitTypes.length)];
+          const bedrooms = unitType === 'Studio' ? 0 : parseInt(unitType);
+          const bathrooms = Math.max(1, Math.floor(bedrooms / 2));
+          const area = `${Math.floor(30 + bedrooms * 15)}m²`;
+
+          return {
+            id: `AKL-${String(index + 1).padStart(3, '0')}`,
+            coordinates,
+            unitType,
+            bedrooms,
+            bathrooms,
+            area,
+            status: Math.random() > 0.2 ? 'Available' : 'Occupied',
+          };
+        });
+        setHousingData(data);
+      } catch (error) {
+        console.error('Failed to load housing data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   useEffect(() => {
-    if (!mapContainer.current || housingData.length === 0) return;
+    if (!mapContainer.current || housingData.length === 0 || isLoading) return;
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
 
@@ -81,17 +147,6 @@ export default function HousingMap() {
       el.style.border = '2px solid hsl(var(--background))';
       el.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
       el.style.cursor = 'pointer';
-      // el.style.transition = 'transform 0.2s';
-      // el.style.transformOrigin = 'center center'; // Ensure scaling happens from the center
-
-      // // Add hover effect
-      // el.onmouseover = () => {
-      //   el.style.transform = 'scale(1.5)'; // Scale up by 1.5x
-      // };
-
-      // el.onmouseout = () => {
-      //   el.style.transform = 'scale(1)'; // Reset to original size
-      // };
 
       const marker = new mapboxgl.Marker(el)
         .setLngLat(unit.coordinates)
@@ -146,7 +201,7 @@ export default function HousingMap() {
     return () => {
       map.current?.remove();
     };
-  }, [housingData]);
+  }, [housingData, isLoading]);
 
   const filteredData = housingData.filter(unit => {
     const matchesSearch = unit.id.toLowerCase().includes(searchQuery.toLowerCase());
@@ -154,6 +209,10 @@ export default function HousingMap() {
       unit.unitType.toLowerCase().includes(filterType.toLowerCase());
     return matchesSearch && matchesType;
   });
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-background">

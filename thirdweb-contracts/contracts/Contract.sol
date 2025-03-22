@@ -225,6 +225,48 @@ contract HousingRegistry {
         return waitlistOrder;
     }
 
+    // Get all property IDs
+    function getAllPropertyIds() public view returns (string[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < 1000; i++) { // Assuming max 1000 properties
+            string memory id = string(abi.encodePacked("H", uint256ToString(i + 1)));
+            if (bytes(properties[id].id).length > 0) {
+                count++;
+            }
+        }
+        
+        string[] memory ids = new string[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < 1000; i++) {
+            string memory id = string(abi.encodePacked("H", uint256ToString(i + 1)));
+            if (bytes(properties[id].id).length > 0) {
+                ids[index] = id;
+                index++;
+            }
+        }
+        return ids;
+    }
+
+    // Helper function to convert uint256 to string
+    function uint256ToString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+        uint256 temp = value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        while (value != 0) {
+            digits -= 1;
+            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+            value /= 10;
+        }
+        return string(buffer);
+    }
+
     // Helper function to convert uint256 to hex string
     function toHexString(uint256 value) internal pure returns (string memory) {
         bytes memory buffer = new bytes(64);
