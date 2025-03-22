@@ -408,8 +408,8 @@ export function CHPDashboard() {
                       </Button>
                       <div className="flex gap-1">
                         <Button
-                          variant="destructive"
                           size="icon"
+                          className="bg-white text-red-500 hover:bg-white/90"
                           onClick={() => {
                             setPropertyToRemove(property.id)
                             setRemovePropertyOpen(true)
@@ -681,7 +681,7 @@ export function CHPDashboard() {
             <p className="font-medium">{properties.find((p) => p.id === propertyToRemove)?.address}</p>
             <p className="text-sm text-muted-foreground mt-1">Property ID: {propertyToRemove}</p>
 
-            <Alert className="bg-primary/20 text-primary border-primary/50 relative">
+            <Alert className="bg-primary/20 text-primary border-primary/50 relative mt-2">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Warning</AlertTitle>
               <AlertDescription>

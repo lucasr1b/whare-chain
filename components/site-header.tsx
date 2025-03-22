@@ -1,14 +1,26 @@
 "use client"
 
 import Link from "next/link"
-import { Home, ClipboardList, Users, Map } from "lucide-react"
+import { Home, ClipboardList, Users, Map, LogOut, Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { UserSelector } from "@/components/user-selector"
+import { useActiveAccount, useDisconnect, useActiveWallet } from "thirdweb/react"
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const router = useRouter()
+  const account = useActiveAccount()
+  const wallet = useActiveWallet()
+  const { disconnect } = useDisconnect()
+
+  const handleDisconnect = () => {
+    if (wallet) {
+      disconnect(wallet)
+      router.push("/")
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -59,19 +71,44 @@ export function SiteHeader() {
                 Audit Logs
               </Link>
             </Button>
-            <Button
-              variant={pathname === "/my-status" ? "default" : "ghost"}
-              asChild
-              className={cn(pathname === "/my-status" && "bg-primary text-primary-foreground hover:bg-primary/90")}
-            >
-              <Link href="/my-status">
-                <Users className="mr-2 h-4 w-4" />
-                My Status
-              </Link>
-            </Button>
+            {account && (
+              <Button
+                variant={pathname === "/my-status" ? "default" : "ghost"}
+                asChild
+                className={cn(pathname === "/my-status" && "bg-primary text-primary-foreground hover:bg-primary/90")}
+              >
+                <Link href="/my-status">
+                  <Users className="mr-2 h-4 w-4" />
+                  My Status
+                </Link>
+              </Button>
+            )}
           </div>
-          <div className="border-l pl-4 ml-2">
-            <UserSelector />
+          <div className="border-l pl-4 ml-2 flex items-center gap-4">
+            {account ? (
+              <>
+                <UserSelector />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDisconnect}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="default"
+                asChild
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                <Link href="/connect">
+                  <Wallet className="mr-2 h-4 w-4" />
+                  Connect
+                </Link>
+              </Button>
+            )}
           </div>
         </nav>
       </div>

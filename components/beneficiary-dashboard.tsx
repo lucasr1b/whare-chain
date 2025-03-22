@@ -79,11 +79,32 @@ export function BeneficiaryDashboard() {
   const [activeTab, setActiveTab] = useState("tenancy")
   const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false)
   const [maintenanceIssue, setMaintenanceIssue] = useState("")
+  const [maintenanceRequests, setMaintenanceRequests] = useState(beneficiaryData.maintenanceRequests)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleMaintenanceRequest = () => {
-    // In a real app, this would send data to an API
-    alert("Maintenance request submitted successfully. Your property manager will be in touch.")
+    if (!maintenanceIssue.trim()) return
+
+    setIsSubmitting(true)
+    const newRequest = {
+      id: `MR${String(maintenanceRequests.length + 1).padStart(3, '0')}`,
+      date: new Date().toLocaleDateString('en-NZ', { day: '2-digit', month: 'short', year: 'numeric' }),
+      issue: maintenanceIssue,
+      status: "Pending",
+      resolution: "Your request is being reviewed by the maintenance team."
+    }
+
+    // Optimistically update the UI
+    setMaintenanceRequests(prev => [newRequest, ...prev])
     setMaintenanceDialogOpen(false)
+    setMaintenanceIssue("")
+
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false)
+      // In a real app, you might want to update the request with the actual server response
+      // For now, we'll just keep the optimistic update
+    }, 1000)
   }
 
   return (
@@ -92,10 +113,10 @@ export function BeneficiaryDashboard() {
         <h1 className="text-3xl font-bold">🏠 My Housing</h1>
         <Button
           onClick={() => setMaintenanceDialogOpen(true)}
-          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+          className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
           size="lg"
         >
-          <Tool className="h-5 w-5" />
+          <Hammer className="h-5 w-5" />
           Request Maintenance
         </Button>
       </div>
@@ -171,7 +192,7 @@ export function BeneficiaryDashboard() {
                   </Button>
                 </div>
                 <div className="space-y-4">
-                  {beneficiaryData.maintenanceRequests.map((request, index) => (
+                  {maintenanceRequests.map((request, index) => (
                     <Card key={index} className="border-l-4 border-l-primary">
                       <CardHeader className="py-3">
                         <div className="flex justify-between items-center">
@@ -179,6 +200,10 @@ export function BeneficiaryDashboard() {
                           {request.status === "Completed" ? (
                             <Badge variant="outline" className="bg-green-500/20 text-green-500 border-green-500/50">
                               Completed
+                            </Badge>
+                          ) : request.status === "Pending" ? (
+                            <Badge variant="outline" className="bg-primary/20 text-primary border-primary/50">
+                              <Clock className="mr-1 h-3 w-3" /> Pending
                             </Badge>
                           ) : (
                             <Badge variant="outline" className="bg-amber-500/20 text-amber-500 border-amber-500/50">
@@ -346,6 +371,7 @@ export function BeneficiaryDashboard() {
                 value={maintenanceIssue}
                 onChange={(e) => setMaintenanceIssue(e.target.value)}
                 className="min-h-[100px]"
+                disabled={isSubmitting}
               />
             </div>
 
@@ -360,11 +386,18 @@ export function BeneficiaryDashboard() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setMaintenanceDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setMaintenanceDialogOpen(false)} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button onClick={handleMaintenanceRequest} disabled={!maintenanceIssue.trim()}>
-              Submit Request
+            <Button onClick={handleMaintenanceRequest} disabled={!maintenanceIssue.trim() || isSubmitting}>
+              {isSubmitting ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
+                  <span>Submitting...</span>
+                </div>
+              ) : (
+                "Submit Request"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

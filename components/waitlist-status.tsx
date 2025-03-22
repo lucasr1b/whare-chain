@@ -20,7 +20,7 @@ function LoadingSkeleton() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">📄 Housing Waitlist</h1>
+        <h1 className="text-2xl font-bold">Housing Waitlist</h1>
         <div className="w-1/3">
           <div className="h-10 bg-muted animate-pulse rounded" />
         </div>
@@ -201,7 +201,7 @@ export function WaitlistStatus() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">📄 Housing Waitlist</h1>
+        <h1 className="text-2xl font-bold">Housing Waitlist</h1>
       </div>
 
       <p className="text-muted-foreground">

@@ -223,7 +223,7 @@ export default function HousingMap() {
             <CardHeader>
               <CardTitle>Unit Statistics</CardTitle>
               <CardDescription>
-                Overview of public housing units in Auckland
+                Overview of public housing units
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -264,9 +264,9 @@ export default function HousingMap() {
 
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Auckland Public Housing Map</CardTitle>
+              <CardTitle>Public Housing Map</CardTitle>
               <CardDescription>
-                Explore public housing units across Auckland
+                Explore public housing units across New Zealand
               </CardDescription>
             </CardHeader>
             <CardContent>

@@ -5,7 +5,7 @@ import { WaitlistedUserDashboard } from "@/components/waitlisted-user-dashboard"
 import { BeneficiaryDashboard } from "@/components/beneficiary-dashboard"
 import { CHPDashboard } from "@/components/chp-dashboard"
 import { useUser, type UserRole } from "@/contexts/user-context"
-import VerificationPage from "@/components/verify/verification-page"
+import VerificationPage from "@/components/verification-page"
 
 export default function MyStatusPage() {
   const { userRole, setUserRole } = useUser()

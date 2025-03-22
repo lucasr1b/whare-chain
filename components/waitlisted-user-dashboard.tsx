@@ -139,7 +139,7 @@ export function WaitlistedUserDashboard() {
                 </div>
                 <Button
                   onClick={() => openHousingOffer(userData.housingOffers[0])}
-                  className="bg-white text-primary hover:bg-white/90 whitespace-nowrap"
+                  className="bg-white text-black hover:bg-white/90 whitespace-nowrap"
                   size="lg"
                 >
                   Review Offer

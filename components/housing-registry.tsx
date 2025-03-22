@@ -27,7 +27,7 @@ function LoadingSkeleton() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">🏠 House Registry</h1>
+        <h1 className="text-2xl font-bold">House Registry</h1>
         <div className="w-1/3">
           <div className="h-10 bg-muted animate-pulse rounded" />
         </div>
@@ -235,7 +235,7 @@ export function HousingRegistry() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">🏠 House Registry</h1>
+        <h1 className="text-2xl font-bold">House Registry</h1>
         <div className="w-1/3">
           <Input
             placeholder="Search by ID, address, or status..."

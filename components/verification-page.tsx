@@ -75,28 +75,28 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
     const extension = fileName.split(".").pop()?.toLowerCase()
 
     if (extension === "pdf") {
-      return <FileText className="h-4 w-4 text-red-400" />
+      return <FileText className="h-4 w-4 text-destructive" />
     } else if (["jpg", "jpeg", "png", "gif"].includes(extension || "")) {
-      return <FileText className="h-4 w-4 text-blue-400" />
+      return <FileText className="h-4 w-4 text-primary" />
     } else {
-      return <FileText className="h-4 w-4 text-gray-400" />
+      return <FileText className="h-4 w-4 text-muted-foreground" />
     }
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="max-w-xl w-full bg-[#0f0f13] rounded-xl border border-[#2a2a3a] shadow-xl overflow-hidden">
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="max-w-xl w-full bg-card rounded-xl border border-border shadow-xl overflow-hidden">
         {isVerified ? (
           <div className="p-8 flex flex-col items-center justify-center">
-            <div className="w-20 h-20 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center mb-6">
-              <CheckCircle className="h-10 w-10 text-[#8b5cf6]" />
+            <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mb-6">
+              <CheckCircle className="h-10 w-10 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold text-white mb-3">Verification Complete</h1>
-            <p className="text-[#a1a1aa] text-center mb-8">
+            <h1 className="text-2xl font-bold text-foreground mb-3">Verification Complete</h1>
+            <p className="text-muted-foreground text-center mb-8">
               Your identity has been verified successfully. You can now access your waitlist status.
             </p>
             <Button
-              className="bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-medium px-6 py-2 rounded-lg transition-all duration-300"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium px-6 py-2 rounded-lg transition-all duration-300"
               onClick={() => setUserRole("waitlisted")}
             >
               Continue to Waitlist
@@ -105,31 +105,31 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
         ) : (
           <div className="p-8">
             <div className="flex flex-col items-center justify-center mb-8">
-              <div className="w-20 h-20 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center mb-6">
-                <Lock className="h-10 w-10 text-[#8b5cf6]" />
+              <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mb-6">
+                <Lock className="h-10 w-10 text-primary" />
               </div>
-              <h1 className="text-2xl font-bold text-white mb-3">Verify Identity</h1>
-              <p className="text-[#a1a1aa] text-center">
+              <h1 className="text-2xl font-bold text-foreground mb-3">Verify Identity</h1>
+              <p className="text-muted-foreground text-center">
                 You need to verify your identity before you can view your waitlist status.
               </p>
             </div>
 
             {/* RealMe Verification Button */}
             <div className="mb-6">
-              <div className="bg-[#1a1a24] rounded-lg p-4 border border-[#2a2a3a] mb-4 hover:border-[#8b5cf6]/50 transition-colors cursor-pointer">
+              <div className="bg-secondary rounded-lg p-4 border border-border mb-4 hover:border-primary/50 transition-colors cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center mr-3">
-                      <Shield className="h-5 w-5 text-[#8b5cf6]" />
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
+                      <Shield className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-white text-sm mb-0.5">Verify with RealMe</h3>
-                      <p className="text-xs text-[#a1a1aa]">Quick and secure verification</p>
+                      <h3 className="font-medium text-foreground text-sm mb-0.5">Verify with RealMe</h3>
+                      <p className="text-xs text-muted-foreground">Quick and secure verification</p>
                     </div>
                   </div>
                   <Button
                     className={cn(
-                      "bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-medium rounded-lg transition-all duration-300",
+                      "bg-primary text-primary-foreground hover:bg-primary/90 font-medium rounded-lg transition-all duration-300",
                       isRealMeSubmitting && "pointer-events-none",
                     )}
                     size="sm"
@@ -138,7 +138,7 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
                   >
                     {isRealMeSubmitting ? (
                       <div className="flex items-center px-3 py-0.5">
-                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-primary-foreground mr-2"></div>
                         <span className="text-xs">Connecting...</span>
                       </div>
                     ) : (
@@ -151,17 +151,17 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
                 </div>
               </div>
               <div className="flex items-center justify-center my-4">
-                <div className="h-px bg-[#2a2a3a] w-full"></div>
-                <span className="px-3 text-xs text-[#71717a]">OR</span>
-                <div className="h-px bg-[#2a2a3a] w-full"></div>
+                <div className="h-px bg-border w-full"></div>
+                <span className="px-3 text-xs text-muted-foreground">OR</span>
+                <div className="h-px bg-border w-full"></div>
               </div>
             </div>
 
             {/* Document Upload Section */}
             <div className="space-y-4">
               <div>
-                <h3 className="font-medium text-white text-sm mb-2 flex items-center">
-                  <FileText className="h-4 w-4 mr-2 text-[#8b5cf6]" />
+                <h3 className="font-medium text-foreground text-sm mb-2 flex items-center">
+                  <FileText className="h-4 w-4 mr-2 text-primary" />
                   Upload Verification Documents
                 </h3>
 
@@ -169,8 +169,8 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
                   className={cn(
                     "border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-all duration-300 relative overflow-hidden",
                     isDragging
-                      ? "border-[#8b5cf6] bg-[#8b5cf6]/10"
-                      : "border-[#2a2a3a] hover:border-[#8b5cf6]/50 hover:bg-[#8b5cf6]/5",
+                      ? "border-primary bg-primary/10"
+                      : "border-border hover:border-primary/50 hover:bg-primary/5",
                   )}
                   onDragOver={onDragOver}
                   onDragLeave={onDragLeave}
@@ -179,14 +179,14 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
                 >
                   <input id="file-upload" type="file" multiple className="hidden" onChange={handleFileInput} />
                   <div className="flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-                      <Upload className="h-5 w-5 text-[#8b5cf6]" />
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                      <Upload className="h-5 w-5 text-primary" />
                     </div>
                     <div className="text-left">
-                      <p className="text-sm text-[#e4e4e7] transition-colors">
+                      <p className="text-sm text-foreground transition-colors">
                         <span className="font-medium">Click to upload</span> or drag and drop
                       </p>
-                      <p className="text-xs text-[#a1a1aa]">Supported formats: PDF, JPG, PNG</p>
+                      <p className="text-xs text-muted-foreground">Supported formats: PDF, JPG, PNG</p>
                     </div>
                   </div>
                 </div>
@@ -195,23 +195,23 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
               {uploadedFiles.length > 0 && (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-medium text-[#e4e4e7]">Uploaded documents</p>
-                    <p className="text-xs text-[#a1a1aa]">{uploadedFiles.length} file(s)</p>
+                    <p className="text-xs font-medium text-foreground">Uploaded documents</p>
+                    <p className="text-xs text-muted-foreground">{uploadedFiles.length} file(s)</p>
                   </div>
                   <div className="space-y-1.5 max-h-24 overflow-y-auto pr-2 custom-scrollbar">
                     {uploadedFiles.map((file, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between bg-[#1a1a24] p-2 rounded-md border border-[#2a2a3a] group hover:bg-[#1f1f2a] transition-colors"
+                        className="flex items-center justify-between bg-secondary p-2 rounded-md border border-border group hover:bg-secondary/80 transition-colors"
                       >
                         <div className="flex items-center space-x-2 truncate max-w-[80%]">
                           {getFileIcon(file.name)}
-                          <span className="text-xs text-[#e4e4e7] truncate">{file.name}</span>
+                          <span className="text-xs text-foreground truncate">{file.name}</span>
                         </div>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-6 w-6 text-[#a1a1aa] hover:text-white hover:bg-[#2a2a3a] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-border rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                           onClick={(e) => {
                             e.stopPropagation()
                             removeFile(index)
@@ -227,7 +227,7 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
 
               <Button
                 className={cn(
-                  "w-full bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-medium py-2 rounded-lg transition-all duration-300 text-sm",
+                  "w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium py-2 rounded-lg transition-all duration-300 text-sm",
                   isSubmitting && "pointer-events-none",
                 )}
                 disabled={uploadedFiles.length === 0 || isSubmitting}
@@ -235,7 +235,7 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
               >
                 {isSubmitting ? (
                   <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
                     <span>Processing...</span>
                   </div>
                 ) : (
@@ -246,7 +246,7 @@ export default function VerificationPage({ setUserRole }: VerificationPageProps)
                 )}
               </Button>
 
-              <div className="text-center text-xs text-[#71717a] pt-1">
+              <div className="text-center text-xs text-muted-foreground pt-1">
                 <p>Your information is encrypted and securely stored.</p>
               </div>
             </div>
