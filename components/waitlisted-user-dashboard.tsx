@@ -327,8 +327,8 @@ export function WaitlistedUserDashboard() {
                 <h3 className="font-medium">Property Details</h3>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-semibold">{selectedProperty.id}</p>
-                    <p className="text-muted-foreground">{selectedProperty.address}</p>
+                    <p className="text-lg font-semibold">{selectedProperty.address}</p>
+                    <p className="text-sm text-muted-foreground">ID: {selectedProperty.id}</p>
                   </div>
                   <Button
                     variant="outline"
