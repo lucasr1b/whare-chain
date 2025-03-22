@@ -93,9 +93,11 @@ export function HousingDetail({ id }: { id: string }) {
                       <TableCell>{record.moveInDate}</TableCell>
                       <TableCell>{record.moveOutDate}</TableCell>
                       <TableCell>
-                        <Button variant="link" className="p-0 h-auto text-primary">
-                          View Transaction
-                        </Button>
+                        <a href={`https://base-sepolia.blockscout.com/tx/0xf2fc86ed9c34330f95a0c5726164a503a8e4839474bb23107f2b3a6b55ae7fa0`} target="_blank" rel="noopener noreferrer">
+                          <Button variant="link" className="p-0 h-auto text-primary">
+                            View Transaction
+                          </Button>
+                        </a>
                       </TableCell>
                     </TableRow>
                   ))}

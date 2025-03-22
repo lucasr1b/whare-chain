@@ -86,6 +86,7 @@ const availableProperties = [
     bathrooms: 1,
     status: "Available",
     features: ["Ground floor", "Close to schools", "Public transport nearby"],
+    offeredTo: null as string | null,
   },
   {
     id: "#H1237",
@@ -94,6 +95,7 @@ const availableProperties = [
     bathrooms: 2,
     status: "Available",
     features: ["Wheelchair accessible", "Recently renovated", "Community garden"],
+    offeredTo: null as string | null,
   },
   {
     id: "#H1240",
@@ -102,6 +104,7 @@ const availableProperties = [
     bathrooms: 1,
     status: "Available",
     features: ["Pet friendly", "Fenced yard", "Heat pump"],
+    offeredTo: null as string | null,
   },
   {
     id: "#H1242",
@@ -110,6 +113,7 @@ const availableProperties = [
     bathrooms: 2,
     status: "Available",
     features: ["Large family home", "Double garage", "Close to hospital"],
+    offeredTo: null as string | null,
   },
 ]
 
@@ -165,7 +169,16 @@ export function CHPDashboard() {
   const handleHousingOffer = () => {
     // In a real app, this would send data to an API
     const property = properties.find((p) => p.id === selectedPropertyForOffer)
-    alert(`Housing offer for ${property?.address} sent to applicant ${selectedUser.did}`)
+
+    // Optimistically update the property status
+    setProperties(prevProperties =>
+      prevProperties.map(p =>
+        p.id === selectedPropertyForOffer
+          ? { ...p, status: "Offered", offeredTo: selectedUser.did }
+          : p
+      )
+    )
+
     setOfferHousingOpen(false)
   }
 
@@ -214,6 +227,7 @@ export function CHPDashboard() {
         bathrooms: parseInt(newProperty.bathrooms),
         status: "Available",
         features: featuresArray,
+        offeredTo: null,
       }
       setProperties(prevProperties => [...prevProperties, newPropertyData])
 
@@ -328,6 +342,7 @@ export function CHPDashboard() {
                       <TableHead>Household Size</TableHead>
                       <TableHead>Housing Need</TableHead>
                       <TableHead>Special Requirements</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -360,6 +375,17 @@ export function CHPDashboard() {
                         </TableCell>
                         <TableCell>{user.specialRequirements}</TableCell>
                         <TableCell>
+                          {properties.some(p => p.offeredTo === user.did) ? (
+                            <Badge variant="outline" className="bg-primary/20 text-primary border-primary/50">
+                              Offer Sent
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="bg-muted text-muted-foreground">
+                              No Offer
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
                           <div className="flex gap-2">
                             <Button
                               size="sm"
@@ -390,8 +416,15 @@ export function CHPDashboard() {
                         <span>{property.bedrooms} Bedrooms</span>
                         <span>{property.bathrooms} Bathrooms</span>
                       </div>
-                      <Badge variant="outline" className="bg-emerald-500/20 text-emerald-500 border-emerald-500/50">
-                        ● Available
+                      <Badge
+                        variant="outline"
+                        className={
+                          property.status === "Available"
+                            ? "bg-emerald-500/20 text-emerald-500 border-emerald-500/50"
+                            : "bg-primary/20 text-primary border-primary/50"
+                        }
+                      >
+                        ● {property.status}
                       </Badge>
                       <div>
                         <h4 className="text-sm font-medium mb-1">Features:</h4>
@@ -403,8 +436,15 @@ export function CHPDashboard() {
                       </div>
                     </CardContent>
                     <CardFooter className="flex gap-2">
-                      <Button className="flex-1">
-                        Assign
+                      <Button
+                        className="flex-1"
+                        disabled={property.status !== "Available"}
+                        onClick={() => {
+                          setSelectedUser({ did: property.offeredTo })
+                          openOfferHousing({ did: property.offeredTo })
+                        }}
+                      >
+                        {property.status === "Available" ? "Assign" : "Offered"}
                       </Button>
                       <div className="flex gap-1">
                         <Button
@@ -459,6 +499,16 @@ export function CHPDashboard() {
                 <p>{selectedUser.did}</p>
               </div>
 
+              {properties.some(p => p.offeredTo === selectedUser.did) && (
+                <Alert className="bg-primary/20 text-primary border-primary/50">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Housing Offer Sent</AlertTitle>
+                  <AlertDescription>
+                    This applicant has already been offered housing. Please wait for their response.
+                  </AlertDescription>
+                </Alert>
+              )}
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <h3 className="text-sm font-medium text-muted-foreground">Waitlist Position</h3>
@@ -493,8 +543,11 @@ export function CHPDashboard() {
                     setUserDetailOpen(false)
                     openOfferHousing(selectedUser)
                   }}
+                  disabled={properties.some(p => p.offeredTo === selectedUser.did)}
                 >
-                  Offer Housing to This Applicant
+                  {properties.some(p => p.offeredTo === selectedUser.did)
+                    ? "Housing Offer Sent"
+                    : "Offer Housing to This Applicant"}
                 </Button>
               </div>
             </div>
