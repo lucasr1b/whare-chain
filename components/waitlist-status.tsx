@@ -83,92 +83,92 @@ export function WaitlistStatus() {
           {
             position: 1,
             applicantDID: "0x1234...5678",
-            priorityScore: 95,
+            priorityScore: 98,
             householdSize: 4,
             housingNeed: "Urgent",
             specialRequirements: "Ground floor access, wheelchair accessible",
-            timeOnWaitlist: "18 months"
+            timeOnWaitlist: "2 weeks"
           },
           {
             position: 2,
             applicantDID: "0xabcd...efgh",
-            priorityScore: 92,
+            priorityScore: 95,
             householdSize: 2,
             housingNeed: "Urgent",
-            specialRequirements: "Close to medical facilities",
-            timeOnWaitlist: "15 months"
+            specialRequirements: "Close to medical facilities, elderly care needed",
+            timeOnWaitlist: "1 month"
           },
           {
             position: 3,
             applicantDID: "0xijkl...mnop",
-            priorityScore: 88,
+            priorityScore: 92,
             householdSize: 3,
-            housingNeed: "Medium",
-            specialRequirements: "Near public transport",
-            timeOnWaitlist: "12 months"
+            housingNeed: "High",
+            specialRequirements: "Victim of domestic violence, needs secure location",
+            timeOnWaitlist: "2 months"
           },
           {
             position: 4,
             applicantDID: "0xqrst...uvwx",
-            priorityScore: 85,
-            householdSize: 1,
-            housingNeed: "Medium",
-            specialRequirements: "Quiet area, accessible bathroom",
-            timeOnWaitlist: "10 months"
+            priorityScore: 88,
+            householdSize: 5,
+            housingNeed: "High",
+            specialRequirements: "Multiple children, needs larger space",
+            timeOnWaitlist: "4 months"
           },
           {
             position: 5,
             applicantDID: "0xyzaa...bbcc",
-            priorityScore: 82,
-            householdSize: 5,
+            priorityScore: 85,
+            householdSize: 2,
             housingNeed: "Medium",
-            specialRequirements: "Multiple bedrooms, garden space",
-            timeOnWaitlist: "8 months"
+            specialRequirements: "Chronic health condition, needs stable housing",
+            timeOnWaitlist: "3 months"
           },
           {
             position: 6,
             applicantDID: "0xdddd...eeee",
-            priorityScore: 80,
-            householdSize: 2,
-            housingNeed: "Low",
-            specialRequirements: "Pet friendly",
-            timeOnWaitlist: "6 months"
+            priorityScore: 82,
+            householdSize: 1,
+            housingNeed: "Medium",
+            specialRequirements: "Recently homeless, needs immediate placement",
+            timeOnWaitlist: "1 month"
           },
           {
             position: 7,
             applicantDID: "0xffff...gggg",
-            priorityScore: 78,
-            householdSize: 1,
-            housingNeed: "Low",
+            priorityScore: 80,
+            householdSize: 3,
+            housingNeed: "Medium",
             specialRequirements: "Close to employment opportunities",
-            timeOnWaitlist: "4 months"
+            timeOnWaitlist: "2 months"
           },
           {
             position: 8,
             applicantDID: "0xhhhh...iiii",
-            priorityScore: 75,
-            householdSize: 3,
+            priorityScore: 78,
+            householdSize: 2,
             housingNeed: "Low",
-            specialRequirements: "Near schools",
-            timeOnWaitlist: "3 months"
+            specialRequirements: "Near schools, single parent",
+            timeOnWaitlist: "1 month"
           },
           {
             position: 9,
             applicantDID: "0xjjjj...kkkk",
-            priorityScore: 72,
-            householdSize: 2,
+            priorityScore: 75,
+            householdSize: 1,
             housingNeed: "Low",
-            specialRequirements: "Parking space",
-            timeOnWaitlist: "2 months"
+            specialRequirements: "Pet friendly, studio or 1 bedroom",
+            timeOnWaitlist: "3 days"
           },
           {
             position: 10,
             applicantDID: "0xllll...mmmm",
-            priorityScore: 70,
-            householdSize: 1,
+            priorityScore: 72,
+            householdSize: 2,
             housingNeed: "Low",
-            specialRequirements: "Studio or 1 bedroom",
-            timeOnWaitlist: "1 month"
+            specialRequirements: "Parking space, close to public transport",
+            timeOnWaitlist: "1 day"
           }
         ];
 

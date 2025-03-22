@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCircle, LinkIcon, Search } from "lucide-react"
+import { CheckCircle, LinkIcon, Search, ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -37,12 +38,22 @@ const housingDetail = {
 
 export function HousingDetail({ id }: { id: string }) {
   const [activeTab, setActiveTab] = useState("details")
+  const router = useRouter()
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center">
-        <Search className="mr-2 h-5 w-5" />
-        <h1 className="text-2xl font-bold">Detailed Housing Unit View</h1>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <h1 className="text-2xl font-bold">Detailed Housing Unit View</h1>
+        </div>
+        <Button
+          variant="outline"
+          onClick={() => router.push("/")}
+          className="flex items-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Button>
       </div>
 
       <Card>
