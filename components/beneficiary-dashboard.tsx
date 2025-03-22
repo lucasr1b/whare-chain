@@ -92,10 +92,10 @@ export function BeneficiaryDashboard() {
         <h1 className="text-3xl font-bold">🏠 My Housing</h1>
         <Button
           onClick={() => setMaintenanceDialogOpen(true)}
-          className="gap-2 bg-amber-600 hover:bg-amber-700 text-white"
+          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
           size="lg"
         >
-          <Hammer className="h-5 w-5" />
+          <Tool className="h-5 w-5" />
           Request Maintenance
         </Button>
       </div>

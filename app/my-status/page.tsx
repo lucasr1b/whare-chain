@@ -48,11 +48,11 @@ export default function MyStatusPage() {
       <main className="flex-1 p-6">
         {userRole === "public" ? (
           <div className="max-w-md mx-auto mt-20">
-            <Card className="border-amber-500/20 shadow-md">
+            <Card className="border-primary/20 shadow-md">
               <CardHeader className="pb-2">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 rounded-full bg-amber-500/10">
-                    <LockKeyhole className="h-10 w-10 text-amber-500" />
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <LockKeyhole className="h-10 w-10 text-primary" />
                   </div>
                 </div>
                 <CardTitle className="text-center text-xl">Access Restricted</CardTitle>

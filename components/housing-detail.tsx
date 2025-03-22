@@ -93,7 +93,7 @@ export function HousingDetail({ id }: { id: string }) {
                       <TableCell>{record.moveInDate}</TableCell>
                       <TableCell>{record.moveOutDate}</TableCell>
                       <TableCell>
-                        <Button variant="link" className="p-0 h-auto text-blue-500">
+                        <Button variant="link" className="p-0 h-auto text-primary">
                           View Transaction
                         </Button>
                       </TableCell>

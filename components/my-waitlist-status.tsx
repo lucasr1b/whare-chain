@@ -19,7 +19,7 @@ const userData = {
   eligibilityDetails: {
     householdSize: 4,
     currentIncome: "$52,000 per annum",
-    housingNeed: "High",
+    housingNeed: "Medium",
     currentLivingSituation: "Temporary accommodation",
     specialRequirements: "Accessibility features needed",
   },
@@ -257,7 +257,7 @@ export function MyWaitlistStatus() {
                     ))}
                   </div>
 
-                  <Alert className="bg-blue-500/20 text-blue-500 border-blue-500/50">
+                  <Alert className="bg-primary/20 text-primary border-primary/50">
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Property Availability</AlertTitle>
                     <AlertDescription>

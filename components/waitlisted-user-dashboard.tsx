@@ -31,7 +31,7 @@ const userData = {
   eligibilityDetails: {
     householdSize: 4,
     currentIncome: "$52,000 per annum",
-    housingNeed: "High",
+    housingNeed: "Medium",
     currentLivingSituation: "Temporary accommodation",
     specialRequirements: "Accessibility features needed",
   },
@@ -80,7 +80,7 @@ export function WaitlistedUserDashboard() {
   const [housingOfferOpen, setHousingOfferOpen] = useState(false)
   const [selectedProperty, setSelectedProperty] = useState<any>(null)
   const [circumstanceChange, setCircumstanceChange] = useState("")
-  const [housingNeed, setHousingNeed] = useState("high")
+  const [housingNeed, setHousingNeed] = useState("medium")
   const [offerResponse, setOfferResponse] = useState<"accept" | "decline" | null>(null)
   const [declineReason, setDeclineReason] = useState("")
 
@@ -111,7 +111,7 @@ export function WaitlistedUserDashboard() {
         <h1 className="text-3xl font-bold">👤 My Waitlist Status</h1>
         <Button
           onClick={() => setUpdateCircumstancesOpen(true)}
-          className="gap-2 bg-amber-600 hover:bg-amber-700 text-white"
+          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
           size="lg"
         >
           <AlertCircle className="h-5 w-5" />
@@ -120,28 +120,28 @@ export function WaitlistedUserDashboard() {
       </div>
 
       {userData.housingOffers.some((offer) => offer.status === "Pending Response") && (
-        <Alert className="bg-blue-500/20 text-blue-500 border-blue-500/50 p-6 relative">
+        <Alert className="bg-primary/20 text-primary border-primary/50 p-6 relative">
           <div className="flex items-start gap-4">
-            <div className="p-2 rounded-full bg-blue-500/10">
+            <div className="p-2 rounded-full bg-primary/10">
               <Home className="h-6 w-6" />
             </div>
             <div className="flex-1 space-y-2">
               <div className="flex items-center justify-between">
-                <AlertTitle className="text-lg font-semibold">New Housing Offer Available</AlertTitle>
+                <AlertTitle className="text-lg text-foreground font-semibold">New Housing Offer Available</AlertTitle>
               </div>
               <AlertDescription className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <div className="space-y-1">
-                  <p className="text-sm">
+                  <p className="text-sm text-foreground">
                     You have received a housing offer that requires your response by{" "}
                     <span className="font-semibold">{userData.housingOffers[0].responseDeadline}</span>.
                   </p>
-                  <p className="text-sm text-blue-500/80">
+                  <p className="text-sm text-primary/80">
                     Please review the offer details and respond before the deadline.
                   </p>
                 </div>
                 <Button
                   onClick={() => openHousingOffer(userData.housingOffers[0])}
-                  className="bg-blue-600 hover:bg-blue-700 text-white whitespace-nowrap"
+                  className="bg-white text-primary hover:bg-white/90 whitespace-nowrap"
                   size="lg"
                 >
                   Review Offer
@@ -282,20 +282,16 @@ export function WaitlistedUserDashboard() {
               <Label>Current housing need</Label>
               <RadioGroup value={housingNeed} onValueChange={setHousingNeed}>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="critical" id="critical" />
-                  <Label htmlFor="critical">Critical (homeless or unsafe housing)</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="high" id="high" />
-                  <Label htmlFor="high">High (temporary accommodation)</Label>
+                  <RadioGroupItem value="urgent" id="urgent" />
+                  <Label htmlFor="urgent">Urgent (homeless or unsafe housing)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="medium" id="medium" />
-                  <Label htmlFor="medium">Medium (inadequate housing)</Label>
+                  <Label htmlFor="medium">Medium (temporary or insecure housing)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="low" id="low" />
-                  <Label htmlFor="low">Low (stable but seeking better housing)</Label>
+                  <Label htmlFor="low">Low (unaffordable or unstable housing)</Label>
                 </div>
               </RadioGroup>
             </div>

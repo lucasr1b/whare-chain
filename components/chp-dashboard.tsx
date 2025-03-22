@@ -30,7 +30,7 @@ const waitlistedUsers = [
     position: 1,
     priorityScore: 92,
     householdSize: 4,
-    housingNeed: "High",
+    housingNeed: "Medium",
     timeOnWaitlist: "3 months",
     specialRequirements: "Accessibility features needed",
   },
@@ -39,7 +39,7 @@ const waitlistedUsers = [
     position: 2,
     priorityScore: 87,
     householdSize: 3,
-    housingNeed: "High",
+    housingNeed: "Medium",
     timeOnWaitlist: "4 months",
     specialRequirements: "None",
   },
@@ -48,7 +48,7 @@ const waitlistedUsers = [
     position: 3,
     priorityScore: 84,
     householdSize: 5,
-    housingNeed: "Critical",
+    housingNeed: "Urgent",
     timeOnWaitlist: "1 month",
     specialRequirements: "Ground floor only",
   },
@@ -57,7 +57,7 @@ const waitlistedUsers = [
     position: 4,
     priorityScore: 79,
     householdSize: 2,
-    housingNeed: "Medium",
+    housingNeed: "Low",
     timeOnWaitlist: "2 months",
     specialRequirements: "None",
   },
@@ -66,7 +66,7 @@ const waitlistedUsers = [
     position: 5,
     priorityScore: 75,
     householdSize: 3,
-    housingNeed: "Medium",
+    housingNeed: "Low",
     timeOnWaitlist: "5 months",
     specialRequirements: "Close to schools",
   },
@@ -255,17 +255,17 @@ export function CHPDashboard() {
                         <TableCell>{user.priorityScore}</TableCell>
                         <TableCell>{user.householdSize}</TableCell>
                         <TableCell>
-                          {user.housingNeed === "Critical" ? (
+                          {user.housingNeed === "Urgent" ? (
                             <Badge variant="outline" className="bg-red-500/20 text-red-500 border-red-500/50">
-                              Critical
+                              Urgent
                             </Badge>
-                          ) : user.housingNeed === "High" ? (
-                            <Badge variant="outline" className="bg-amber-500/20 text-amber-500 border-amber-500/50">
-                              High
+                          ) : user.housingNeed === "Medium" ? (
+                            <Badge variant="outline" className="bg-primary/20 text-primary border-primary/50">
+                              Medium
                             </Badge>
                           ) : (
-                            <Badge variant="outline" className="bg-blue-500/20 text-blue-500 border-blue-500/50">
-                              Medium
+                            <Badge variant="outline" className="bg-primary/20 text-primary/80 border-primary/50">
+                              Low
                             </Badge>
                           )}
                         </TableCell>
@@ -466,26 +466,6 @@ export function CHPDashboard() {
                   The applicant will have 7 days to respond to this offer. All offers are recorded on the blockchain for
                   transparency.
                 </AlertDescription>
-                <button
-                  className="absolute top-2 right-2 p-1 rounded-full hover:bg-muted"
-                  onClick={(e) => e.currentTarget.parentElement?.remove()}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-x"
-                  >
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </button>
               </Alert>
             </div>
           )}
@@ -605,7 +585,7 @@ export function CHPDashboard() {
             <p className="font-medium">{availableProperties.find((p) => p.id === propertyToRemove)?.address}</p>
             <p className="text-sm text-muted-foreground mt-1">Property ID: {propertyToRemove}</p>
 
-            <Alert className="mt-4 bg-amber-500/20 text-amber-500 border-amber-500/50 relative">
+            <Alert className="bg-primary/20 text-primary border-primary/50 relative">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Warning</AlertTitle>
               <AlertDescription>
