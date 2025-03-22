@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap');
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5e6d3;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  margin-top: 0;
+}
+
+.navbar {
+  background-color: #00000A;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.nav-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.nav-brand {
+  color: #fff;
+  font-family: 'Inter', Arial;
+  font-size: 24px;
+  font-weight: 700; /* fix invalid "200 900" value */
+  font-style: normal;
+  letter-spacing: 1px;
+}
+
+
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full screen */
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Optional dark overlay */
+}
+
+
+.hero-title {
+  font-size: 54px;
+  font-family: "Poppins", Arial;
+  margin: 0;
+  color: #F3E9D2;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.hero-subtitle {
+  font-size: 22px;
+  font-family: Arial;
+  color: #F3E9D2;
+  margin-bottom: 30px;
+  margin-top: 0px;
+}
+
+.hero-description {
+  width: 50%;
+  font-size: 18px;
+  font-family: Arial;
+  color: #fff;
+  margin: 0 auto 30px auto; /* top 0, bottom 30px, auto left/right to center */
+  text-align: center;
+}
+
+.wallet-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 30px;
+  background: linear-gradient(to right, #ff3833, #fcbc00);
+  color: #ffffff;
+  border: 4px solid #ff3833;
+  border-radius: 50px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wallet-button:hover {
+  background: linear-gradient(to right, #ff3833, #fcbc00);
+  border: 4px solid #fe711f;
+  transform: translateY(-2px);
+}
+
+.wallet-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.wallet-button:hover .wallet-icon {
+  transform: scale(1.1);
+}
+
+
+.splash-screen {
+  position: fixed;
+  z-index: 9999;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeOut 1s ease 2s forwards;
+}
+
+.splash-logo {
+  animation: logoZoom 2s ease forwards;
+}
+
+@keyframes logoZoom {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.main-content.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.main-content.visible {
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.what-we-do {
+  padding: 100px 10%;
+  background-color: #212121;
+}
+
+.what-we-do-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #F3E9D2;
+}
+
+.divider {
+  border: 1px solid;
+  margin-bottom: 20px;
+  width: 80%;
+  margin-left: 0;
+  border-radius: 5px;
+  color: #fb9010;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.content-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.content-text {
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.vision-section {
+  padding: 80px 10%;
+  background-color: #212121;
+  text-align: center;
+}
+
+.vision-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #F3E9D2;
+}
+
+.vision-divider {
+  border: 1px solid;
+  margin-bottom: 50px;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  color: #fb9010;
+}
+
+.vision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vision-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.vision-icon {
+  width: 80px;
+  height: 80px;
+  stroke: #fb9010;
+}
+
+.vision-subtitle {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.vision-text {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.5;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.footer {
+  background-image: url('/ponga2_3.png');
+  background-repeat: repeat;
+  padding: 60px 10%;
+  color: #F3E9D2;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 3.9, 0.85);
+  z-index: 1;
+}
+
+.footer-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fe711f;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #fcbc00;
+}
+
+.footer-bottom {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
