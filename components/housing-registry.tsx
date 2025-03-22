@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { CheckCircle, Clock, LinkIcon } from "lucide-react"
+import { CheckCircle, Clock, LinkIcon, RefreshCw } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,7 @@ import { baseSepolia } from "thirdweb/chains"
 import { HOUSING_REGISTRY_ADDRESS } from "@/lib/contract"
 import { getContract, readContract } from "thirdweb"
 import { ConnectButton } from "thirdweb/react"
+import { Button } from "@/components/ui/button"
 
 type PropertyStatus = "Occupied" | "Available" | "Pending"
 
@@ -78,138 +79,138 @@ export function HousingRegistry() {
   const [error, setError] = useState<string | null>(null)
   const account = useActiveAccount()
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        setIsLoading(true)
-        setError(null)
+  const fetchProperties = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
 
-        // Historical sample data
-        const historicalProperties: Property[] = [
-          {
-            id: "#H1201",
-            address: "123 Queen Street, Auckland CBD",
-            status: "Occupied",
-            occupant: "[0x1234...5678]",
-            moveInDate: "2023-01-15"
-          },
-          {
-            id: "#H1202",
-            address: "45 Victoria Street, Wellington",
-            status: "Available",
-            occupant: "—",
-            moveInDate: "—"
-          },
-          {
-            id: "#H1203",
-            address: "78 High Street, Christchurch",
-            status: "Occupied",
-            occupant: "[0xabcd...efgh]",
-            moveInDate: "2023-03-20"
-          },
-          {
-            id: "#H1204",
-            address: "12 Albert Street, Hamilton",
-            status: "Pending",
-            occupant: "—",
-            moveInDate: "—"
-          },
-          {
-            id: "#H1205",
-            address: "89 Devonport Road, Tauranga",
-            status: "Occupied",
-            occupant: "[0xijkl...mnop]",
-            moveInDate: "2023-06-10"
-          },
-          {
-            id: "#H1206",
-            address: "34 Princes Street, Dunedin",
-            status: "Available",
-            occupant: "—",
-            moveInDate: "—"
-          },
-          {
-            id: "#H1207",
-            address: "56 Cameron Road, Rotorua",
-            status: "Occupied",
-            occupant: "[0xqrst...uvwx]",
-            moveInDate: "2023-09-05"
-          },
-          {
-            id: "#H1208",
-            address: "23 Victoria Street, Nelson",
-            status: "Pending",
-            occupant: "—",
-            moveInDate: "—"
-          },
-          {
-            id: "#H1209",
-            address: "67 Fitzherbert Street, Palmerston North",
-            status: "Occupied",
-            occupant: "[0xyzaa...bbcc]",
-            moveInDate: "2023-11-15"
-          },
-          {
-            id: "#H1210",
-            address: "90 Devon Street, New Plymouth",
-            status: "Available",
-            occupant: "—",
-            moveInDate: "—"
-          }
-        ]
+      // Historical sample data
+      const historicalProperties: Property[] = [
+        {
+          id: "#H1201",
+          address: "123 Queen Street, Auckland CBD",
+          status: "Occupied",
+          occupant: "[0x1234...5678]",
+          moveInDate: "2023-01-15"
+        },
+        {
+          id: "#H1202",
+          address: "45 Victoria Street, Wellington",
+          status: "Available",
+          occupant: "—",
+          moveInDate: "—"
+        },
+        {
+          id: "#H1203",
+          address: "78 High Street, Christchurch",
+          status: "Occupied",
+          occupant: "[0xabcd...efgh]",
+          moveInDate: "2023-03-20"
+        },
+        {
+          id: "#H1204",
+          address: "12 Albert Street, Hamilton",
+          status: "Pending",
+          occupant: "—",
+          moveInDate: "—"
+        },
+        {
+          id: "#H1205",
+          address: "89 Devonport Road, Tauranga",
+          status: "Occupied",
+          occupant: "[0xijkl...mnop]",
+          moveInDate: "2023-06-10"
+        },
+        {
+          id: "#H1206",
+          address: "34 Princes Street, Dunedin",
+          status: "Available",
+          occupant: "—",
+          moveInDate: "—"
+        },
+        {
+          id: "#H1207",
+          address: "56 Cameron Road, Rotorua",
+          status: "Occupied",
+          occupant: "[0xqrst...uvwx]",
+          moveInDate: "2023-09-05"
+        },
+        {
+          id: "#H1208",
+          address: "23 Victoria Street, Nelson",
+          status: "Pending",
+          occupant: "—",
+          moveInDate: "—"
+        },
+        {
+          id: "#H1209",
+          address: "67 Fitzherbert Street, Palmerston North",
+          status: "Occupied",
+          occupant: "[0xyzaa...bbcc]",
+          moveInDate: "2023-11-15"
+        },
+        {
+          id: "#H1210",
+          address: "90 Devon Street, New Plymouth",
+          status: "Available",
+          occupant: "—",
+          moveInDate: "—"
+        }
+      ]
 
-        // Fetch properties from the contract
-        const contract = await getContract({
-          client,
-          chain: baseSepolia,
-          address: HOUSING_REGISTRY_ADDRESS,
+      // Fetch properties from the contract
+      const contract = await getContract({
+        client,
+        chain: baseSepolia,
+        address: HOUSING_REGISTRY_ADDRESS,
+      })
+
+      // Get all property IDs from the contract
+      const propertyIds = await readContract({
+        contract,
+        method: "function getAllPropertyIds() returns (string[])",
+      }) as string[]
+
+      // Fetch details for each property
+      const contractProperties = await Promise.all(
+        propertyIds.map(async (id: string) => {
+          const [address, bedrooms, bathrooms, features, isAvailable, currentOccupant, moveInDate] = await readContract({
+            contract,
+            method: "function getProperty(string _id) returns (string, uint256, uint256, string[], bool, address, uint256)",
+            params: [id],
+          }) as [string, bigint, bigint, string[], boolean, string, bigint]
+
+          return {
+            id: `#${id}`,
+            address,
+            status: isAvailable ? "Available" : "Occupied",
+            occupant: currentOccupant === "0x0000000000000000000000000000000000000000" ? "—" : currentOccupant,
+            moveInDate: moveInDate === BigInt(0) ? "—" : new Date(Number(moveInDate) * 1000).toISOString().split('T')[0],
+          } as Property
         })
+      )
 
-        // Get all property IDs from the contract
-        const propertyIds = await readContract({
-          contract,
-          method: "function getAllPropertyIds() returns (string[])",
-        }) as string[]
+      // Combine historical and contract properties
+      // Remove any historical properties that exist in the contract
+      const filteredHistoricalProperties = historicalProperties.filter(
+        historical => !contractProperties.some(contract => contract.id === historical.id)
+      )
 
-        // Fetch details for each property
-        const contractProperties = await Promise.all(
-          propertyIds.map(async (id: string) => {
-            const [address, bedrooms, bathrooms, features, isAvailable, currentOccupant, moveInDate] = await readContract({
-              contract,
-              method: "function getProperty(string _id) returns (string, uint256, uint256, string[], bool, address, uint256)",
-              params: [id],
-            }) as [string, bigint, bigint, string[], boolean, string, bigint]
+      // Combine the properties
+      const allProperties = [...filteredHistoricalProperties, ...contractProperties]
 
-            return {
-              id: `#${id}`,
-              address,
-              status: isAvailable ? "Available" : "Occupied",
-              occupant: currentOccupant === "0x0000000000000000000000000000000000000000" ? "—" : currentOccupant,
-              moveInDate: moveInDate === BigInt(0) ? "—" : new Date(Number(moveInDate) * 1000).toISOString().split('T')[0],
-            } as Property
-          })
-        )
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
-        // Combine historical and contract properties
-        // Remove any historical properties that exist in the contract
-        const filteredHistoricalProperties = historicalProperties.filter(
-          historical => !contractProperties.some(contract => contract.id === historical.id)
-        )
-
-        // Combine the properties
-        const allProperties = [...filteredHistoricalProperties, ...contractProperties]
-
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
-        setProperties(allProperties)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch properties")
-      } finally {
-        setIsLoading(false)
-      }
+      setProperties(allProperties)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch properties")
+    } finally {
+      setIsLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchProperties()
   }, [])
 

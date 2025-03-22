@@ -52,7 +52,7 @@ const HousingRegistry = () => {
         ],
       });
 
-      const result = await sendTransaction({
+      await sendTransaction({
         transaction,
         account,
       });

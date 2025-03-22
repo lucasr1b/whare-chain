@@ -13,25 +13,60 @@ contract HousingOffers {
     // State variables
     mapping(string => Offer) public offers; // propertyId => Offer
     Offer[] public offerHistory;
-    address public owner;
+    mapping(address => bool) public owners;
+    uint256 public ownerCount;
 
     // Events
     event OfferCreated(string indexed propertyId, address indexed applicant);
     event OfferAccepted(string indexed propertyId, address indexed applicant);
     event OfferDeclined(string indexed propertyId, address indexed applicant, string reason);
+    event OwnerAdded(address indexed newOwner);
+    event OwnerRemoved(address indexed removedOwner);
 
     constructor() {
-        owner = msg.sender;
+        owners[msg.sender] = true;
+        ownerCount = 1;
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can call this function");
+        require(owners[msg.sender], "Only owner can call this function");
         _;
     }
 
-    function setOwner(address newOwner) public onlyOwner {
+    function addOwner(address newOwner) public onlyOwner {
         require(newOwner != address(0), "New owner is the zero address");
-        owner = newOwner;
+        require(!owners[newOwner], "Address is already an owner");
+        
+        owners[newOwner] = true;
+        ownerCount++;
+        emit OwnerAdded(newOwner);
+    }
+
+    function removeOwner(address ownerToRemove) public onlyOwner {
+        require(ownerToRemove != msg.sender, "Cannot remove self");
+        require(owners[ownerToRemove], "Address is not an owner");
+        require(ownerCount > 1, "Cannot remove the last owner");
+        
+        owners[ownerToRemove] = false;
+        ownerCount--;
+        emit OwnerRemoved(ownerToRemove);
+    }
+
+    function isOwner(address account) public view returns (bool) {
+        return owners[account];
+    }
+
+    function getOwners() public view returns (address[] memory) {
+        address[] memory ownerList = new address[](ownerCount);
+        uint256 index = 0;
+        for (uint256 i = 0; i < 1000; i++) { // Assuming max 1000 owners
+            address potentialOwner = address(uint160(i));
+            if (owners[potentialOwner]) {
+                ownerList[index] = potentialOwner;
+                index++;
+            }
+        }
+        return ownerList;
     }
 
     function createOffer(string memory _propertyId, address _applicant) public onlyOwner {
