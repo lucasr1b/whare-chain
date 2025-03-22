@@ -12,35 +12,30 @@ const waitlistData = [
     applicantDID: "[0x...B8F2]",
     priorityScore: 92,
     timeOnWaitlist: "3 months",
-    verified: true,
   },
   {
     position: 2,
     applicantDID: "[0x...9E1A]",
     priorityScore: 87,
     timeOnWaitlist: "4 months",
-    verified: true,
   },
   {
     position: 3,
     applicantDID: "[0x...5D3C]",
     priorityScore: 84,
     timeOnWaitlist: "1 month",
-    verified: false,
   },
   {
     position: 4,
     applicantDID: "[0x...7F2B]",
     priorityScore: 79,
     timeOnWaitlist: "2 months",
-    verified: true,
   },
   {
     position: 5,
     applicantDID: "[0x...3A9D]",
     priorityScore: 75,
     timeOnWaitlist: "5 months",
-    verified: true,
   },
 ]
 
@@ -79,7 +74,6 @@ export function WaitlistStatus() {
               <TableHead>Applicant DID</TableHead>
               <TableHead>Priority Score</TableHead>
               <TableHead>Time on Waitlist</TableHead>
-              <TableHead>Verified On-chain</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -93,17 +87,6 @@ export function WaitlistStatus() {
                 </TableCell>
                 <TableCell>{applicant.priorityScore}</TableCell>
                 <TableCell>{applicant.timeOnWaitlist}</TableCell>
-                <TableCell>
-                  {applicant.verified ? (
-                    <span className="flex items-center">
-                      Yes <span className="ml-1 text-green-500">✓</span>
-                    </span>
-                  ) : (
-                    <span className="flex items-center">
-                      Pending <span className="ml-1 text-blue-500">⟳</span>
-                    </span>
-                  )}
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

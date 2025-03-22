@@ -15,7 +15,6 @@ const housingData = [
     status: "Occupied",
     occupant: "[0x...A3B1]",
     moveInDate: "10 Jan 2025",
-    verified: true,
   },
   {
     id: "#H1235",
@@ -23,7 +22,6 @@ const housingData = [
     status: "Available",
     occupant: "—",
     moveInDate: "—",
-    verified: true,
   },
   {
     id: "#H1236",
@@ -31,7 +29,6 @@ const housingData = [
     status: "Pending",
     occupant: "—",
     moveInDate: "—",
-    verified: false,
   },
   {
     id: "#H1237",
@@ -39,7 +36,6 @@ const housingData = [
     status: "Available",
     occupant: "—",
     moveInDate: "—",
-    verified: true,
   },
   {
     id: "#H1238",
@@ -47,7 +43,6 @@ const housingData = [
     status: "Occupied",
     occupant: "[0x...F2D9]",
     moveInDate: "15 Feb 2025",
-    verified: true,
   },
 ]
 
@@ -83,7 +78,6 @@ export function HousingRegistry() {
               <TableHead>Status</TableHead>
               <TableHead>Occupant</TableHead>
               <TableHead>Move-In Date</TableHead>
-              <TableHead>Verified On-chain</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -120,17 +114,6 @@ export function HousingRegistry() {
                   )}
                 </TableCell>
                 <TableCell>{housing.moveInDate}</TableCell>
-                <TableCell>
-                  {housing.verified ? (
-                    <span className="flex items-center">
-                      Yes <span className="ml-1 text-green-500">✓</span>
-                    </span>
-                  ) : (
-                    <span className="flex items-center">
-                      Pending <span className="ml-1 text-blue-500">⟳</span>
-                    </span>
-                  )}
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

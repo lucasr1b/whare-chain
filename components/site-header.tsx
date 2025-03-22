@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, ClipboardList, Users } from "lucide-react"
+import { Home, ClipboardList, Users, Map } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -27,6 +27,16 @@ export function SiteHeader() {
               <Link href="/">
                 <Home className="mr-2 h-4 w-4" />
                 Registry
+              </Link>
+            </Button>
+            <Button
+              variant={pathname === "/housing/map" ? "default" : "ghost"}
+              asChild
+              className={cn(pathname === "/housing/map" && "bg-primary text-primary-foreground hover:bg-primary/90")}
+            >
+              <Link href="/housing/map">
+                <Map className="mr-2 h-4 w-4" />
+                Housing Map
               </Link>
             </Button>
             <Button
