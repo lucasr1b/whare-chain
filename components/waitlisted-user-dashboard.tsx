@@ -120,23 +120,35 @@ export function WaitlistedUserDashboard() {
       </div>
 
       {userData.housingOffers.some((offer) => offer.status === "Pending Response") && (
-        <Alert className="bg-blue-500/20 text-blue-500 border-blue-500/50 p-4 relative">
-          <Home className="h-5 w-5" />
-          <AlertTitle className="text-base">New Housing Offer</AlertTitle>
-          <AlertDescription className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-            <span>
-              You have a pending housing offer that requires your response by{" "}
-              <strong>{userData.housingOffers[0].responseDeadline}</strong>.
-            </span>
-            <Button
-              onClick={() => openHousingOffer(userData.housingOffers[0])}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-              size="lg"
-            >
-              View Offer Details
-            </Button>
-          </AlertDescription>
-          <AlertClose className="hover:bg-blue-500/10" />
+        <Alert className="bg-blue-500/20 text-blue-500 border-blue-500/50 p-6 relative">
+          <div className="flex items-start gap-4">
+            <div className="p-2 rounded-full bg-blue-500/10">
+              <Home className="h-6 w-6" />
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex items-center justify-between">
+                <AlertTitle className="text-lg font-semibold">New Housing Offer Available</AlertTitle>
+              </div>
+              <AlertDescription className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <div className="space-y-1">
+                  <p className="text-sm">
+                    You have received a housing offer that requires your response by{" "}
+                    <span className="font-semibold">{userData.housingOffers[0].responseDeadline}</span>.
+                  </p>
+                  <p className="text-sm text-blue-500/80">
+                    Please review the offer details and respond before the deadline.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => openHousingOffer(userData.housingOffers[0])}
+                  className="bg-blue-600 hover:bg-blue-700 text-white whitespace-nowrap"
+                  size="lg"
+                >
+                  Review Offer
+                </Button>
+              </AlertDescription>
+            </div>
+          </div>
         </Alert>
       )}
 
@@ -307,29 +319,20 @@ export function WaitlistedUserDashboard() {
               Please review this housing offer and respond by {selectedProperty?.responseDeadline || "the deadline"}.
             </DialogDescription>
           </DialogHeader>
-
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Important</AlertTitle>
+            <AlertDescription>
+              If you decline this offer, you will remain on the waitlist.
+            </AlertDescription>
+          </Alert>
           {selectedProperty && (
-            <div className="space-y-4 py-4">
+            <div className="space-y-4 pb-4">
               <div className="space-y-1">
                 <h3 className="font-medium">Property Details</h3>
                 <p>{selectedProperty.address}</p>
                 <p className="text-sm text-muted-foreground">Property ID: {selectedProperty.id}</p>
               </div>
-
-              <div className="space-y-1">
-                <h3 className="font-medium">Offer Information</h3>
-                <p className="text-sm">Offer Date: {selectedProperty.offerDate || "15 Mar 2025"}</p>
-                <p className="text-sm">Response Deadline: {selectedProperty.responseDeadline || "22 Mar 2025"}</p>
-              </div>
-
-              <Alert>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Important</AlertTitle>
-                <AlertDescription>
-                  If you decline this offer, you will remain on the waitlist. If you accept, you will be contacted by a
-                  case manager to arrange the next steps.
-                </AlertDescription>
-              </Alert>
 
               <div className="space-y-2">
                 <Label>Your Response</Label>

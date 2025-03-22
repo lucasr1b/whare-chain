@@ -82,11 +82,16 @@ export function HousingRegistry() {
           </TableHeader>
           <TableBody>
             {filteredData.map((housing) => (
-              <TableRow key={housing.id}>
+              <TableRow
+                key={housing.id}
+                className="group cursor-pointer hover:bg-muted/50 transition-colors"
+                onClick={() => window.location.href = `/housing/${housing.id.replace("#", "")}`}
+              >
                 <TableCell className="font-medium">
-                  <Link href={`/housing/${housing.id.replace("#", "")}`} className="text-primary hover:underline">
-                    {housing.id}
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <span className="text-primary group-hover:underline">{housing.id}</span>
+                    <LinkIcon className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
                 </TableCell>
                 <TableCell>{housing.address}</TableCell>
                 <TableCell>

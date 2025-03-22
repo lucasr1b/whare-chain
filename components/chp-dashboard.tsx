@@ -273,7 +273,6 @@ export function CHPDashboard() {
                         <TableCell>
                           <div className="flex gap-2">
                             <Button
-                              variant="outline"
                               size="sm"
                               onClick={() => viewUserDetails(user)}
                               className="h-8 px-2"

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { CheckCircle, Clock, FileText, PenToolIcon as Tool, Phone, AlertCircle } from "lucide-react"
+import { CheckCircle, Clock, FileText, PenToolIcon as Tool, Phone, AlertCircle, Hammer } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -95,7 +95,7 @@ export function BeneficiaryDashboard() {
           className="gap-2 bg-amber-600 hover:bg-amber-700 text-white"
           size="lg"
         >
-          <Tool className="h-5 w-5" />
+          <Hammer className="h-5 w-5" />
           Request Maintenance
         </Button>
       </div>
@@ -166,8 +166,8 @@ export function BeneficiaryDashboard() {
                     className="gap-2 bg-primary hover:bg-primary/90"
                     size="sm"
                   >
-                    <Tool className="h-4 w-4" />
-                    New Request
+                    <Hammer className="h-4 w-4" />
+                    New Maintenance Request
                   </Button>
                 </div>
                 <div className="space-y-4">
@@ -280,11 +280,6 @@ export function BeneficiaryDashboard() {
                     <span>{beneficiaryData.contacts.propertyManager.email}</span>
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button variant="outline" className="w-full">
-                    Contact Manager
-                  </Button>
-                </CardFooter>
               </Card>
 
               <Card>
@@ -314,11 +309,6 @@ export function BeneficiaryDashboard() {
                     <span>{beneficiaryData.contacts.maintenance.email}</span>
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button variant="outline" className="w-full" onClick={() => setMaintenanceDialogOpen(true)}>
-                    Request Maintenance
-                  </Button>
-                </CardFooter>
               </Card>
 
               <Alert className="bg-red-500/20 text-red-500 border-red-500/50 relative">
@@ -331,26 +321,6 @@ export function BeneficiaryDashboard() {
                   </div>
                   <p className="text-sm mt-1">For urgent issues like flooding, fire, or security concerns.</p>
                 </AlertDescription>
-                <button
-                  className="absolute top-2 right-2 p-1 rounded-full hover:bg-red-500/10"
-                  onClick={(e) => e.currentTarget.parentElement?.remove()}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-x"
-                  >
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </button>
               </Alert>
             </TabsContent>
           </Tabs>
