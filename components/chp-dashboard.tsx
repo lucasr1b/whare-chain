@@ -24,7 +24,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useActiveAccount } from "thirdweb/react"
 import { client } from "@/lib/thirdWebClient"
-import { CONTRACT_ADDRESS } from "@/lib/contract"
+import { HOUSING_REGISTRY_ADDRESS, HOUSING_OFFERS_ADDRESS } from "@/lib/contract"
 import { baseSepolia } from "thirdweb/chains"
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb"
 import { ConnectButton } from "thirdweb/react"
@@ -166,20 +166,48 @@ export function CHPDashboard() {
     setOfferHousingOpen(true)
   }
 
-  const handleHousingOffer = () => {
-    // In a real app, this would send data to an API
-    const property = properties.find((p) => p.id === selectedPropertyForOffer)
+  const handleHousingOffer = async () => {
+    if (!account) {
+      alert("Please connect your wallet first")
+      return
+    }
 
-    // Optimistically update the property status
-    setProperties(prevProperties =>
-      prevProperties.map(p =>
-        p.id === selectedPropertyForOffer
-          ? { ...p, status: "Offered", offeredTo: selectedUser.did }
-          : p
+    try {
+      // Create contract instance for housing offers
+      const offersContract = getContract({
+        client,
+        chain: baseSepolia,
+        address: HOUSING_OFFERS_ADDRESS,
+      })
+
+      const transaction = prepareContractCall({
+        contract: offersContract,
+        method: "function createOffer(string _propertyId, address _applicant)",
+        params: [
+          selectedPropertyForOffer.replace("#", ""), // Remove # from property ID
+          "0x98E0A88c2aAd1bE44d58027D672E77753C646bE6"
+        ],
+      })
+
+      await sendTransaction({
+        account,
+        transaction,
+      })
+
+      // Optimistically update the property status
+      setProperties(prevProperties =>
+        prevProperties.map(p =>
+          p.id === selectedPropertyForOffer
+            ? { ...p, status: "Offered", offeredTo: selectedUser.did }
+            : p
+        )
       )
-    )
 
-    setOfferHousingOpen(false)
+      setOfferHousingOpen(false)
+    } catch (err) {
+      console.error("Failed to create housing offer:", err)
+      alert("Failed to create housing offer. Please try again.")
+    }
   }
 
   const handleAddProperty = async () => {
@@ -195,15 +223,15 @@ export function CHPDashboard() {
       // Convert features string to array
       const featuresArray = newProperty.features.split(",").map(feature => feature.trim())
 
-      // Create contract instance
-      const contract = await getContract({
+      // Create contract instance for housing registry
+      const registryContract = getContract({
         client,
         chain: baseSepolia,
-        address: CONTRACT_ADDRESS,
+        address: HOUSING_REGISTRY_ADDRESS,
       })
 
-      const tx = await prepareContractCall({
-        contract,
+      const transaction = prepareContractCall({
+        contract: registryContract,
         method: "function addProperty(string _id, string _houseAddress, uint256 _bedrooms, uint256 _bathrooms, string[] _features)",
         params: [
           newProperty.id,
@@ -216,7 +244,7 @@ export function CHPDashboard() {
 
       await sendTransaction({
         account,
-        transaction: tx,
+        transaction,
       })
 
       // Add property optimistically to the list

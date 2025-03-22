@@ -4,7 +4,7 @@ import { useActiveAccount, useSendTransaction } from "thirdweb/react";
 import { client } from '@/lib/thirdWebClient';
 import { baseSepolia } from "thirdweb/chains";
 import { ConnectButton } from "thirdweb/react";
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from "@/lib/contract";
+import { CONTRACT_ADDRESS } from "@/lib/contract";
 import { getContract, prepareContractCall, sendTransaction } from "thirdweb";
 
 const HousingRegistry = () => {

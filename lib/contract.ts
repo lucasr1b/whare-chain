@@ -1,41 +1,5 @@
-import { client } from "./thirdWebClient";
-import { baseSepolia } from "thirdweb/chains";
+export const HOUSING_REGISTRY_ADDRESS = "0xCD6ef2e4e4d27904dF912838d2aeF110ab78FC15";
+export const HOUSING_OFFERS_ADDRESS = "0x2957e5D58500444dC0ed80AF6d8E5FF0760C2d21";
 
-export const CONTRACT_ADDRESS = "0xCD6ef2e4e4d27904dF912838d2aeF110ab78FC15";
-
-// Contract ABI - this should match your deployed contract
-export const CONTRACT_ABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_id",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_houseAddress",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_bedrooms",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_bathrooms",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string[]",
-        "name": "_features",
-        "type": "string[]"
-      }
-    ],
-    "name": "addProperty",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-]; 
+// For backward compatibility
+export const CONTRACT_ADDRESS = HOUSING_REGISTRY_ADDRESS;

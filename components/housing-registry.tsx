@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { useActiveAccount } from "thirdweb/react"
 import { client } from '@/lib/thirdWebClient'
 import { baseSepolia } from "thirdweb/chains"
-import { CONTRACT_ADDRESS } from "@/lib/contract"
+import { HOUSING_REGISTRY_ADDRESS } from "@/lib/contract"
 import { getContract, readContract } from "thirdweb"
 import { ConnectButton } from "thirdweb/react"
 
@@ -162,7 +162,7 @@ export function HousingRegistry() {
         const contract = await getContract({
           client,
           chain: baseSepolia,
-          address: CONTRACT_ADDRESS,
+          address: HOUSING_REGISTRY_ADDRESS,
         })
 
         // Get all property IDs from the contract
