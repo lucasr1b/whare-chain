@@ -314,39 +314,51 @@ export function WaitlistedUserDashboard() {
             </DialogDescription>
           </DialogHeader>
           <Alert>
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Important</AlertTitle>
+            <AlertCircle className="h-4 w-4 text-primary" />
+            <AlertTitle className="text-primary">Important</AlertTitle>
             <AlertDescription>
-              If you decline this offer, you will remain on the waitlist.
+              If you decline this offer, you will remain on the waitlist but will be moved down the queue.
             </AlertDescription>
           </Alert>
+
           {selectedProperty && (
             <div className="space-y-4 pb-4">
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <h3 className="font-medium">Property Details</h3>
-                <p>{selectedProperty.address}</p>
-                <p className="text-sm text-muted-foreground">Property ID: {selectedProperty.id}</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-lg font-semibold">{selectedProperty.id}</p>
+                    <p className="text-muted-foreground">{selectedProperty.address}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.location.href = `/housing/map?property=${selectedProperty.id.replace("#", "")}`}
+                  >
+                    View on Map
+                  </Button>
+                </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Your Response</Label>
-                <RadioGroup value={offerResponse || ""} onValueChange={(value) => setOfferResponse(value as any)}>
+                <h3 className="font-medium">Response</h3>
+                <RadioGroup value={offerResponse || ""} onValueChange={(value: "accept" | "decline") => setOfferResponse(value)}>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="accept" id="accept" />
-                    <Label htmlFor="accept">Accept this housing offer</Label>
+                    <Label htmlFor="accept">Accept Offer</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="decline" id="decline" />
-                    <Label htmlFor="decline">Decline this housing offer</Label>
+                    <Label htmlFor="decline">Decline Offer</Label>
                   </div>
                 </RadioGroup>
               </div>
 
               {offerResponse === "decline" && (
                 <div className="space-y-2">
-                  <Label>Reason for declining</Label>
+                  <Label>Reason for Declining</Label>
                   <Textarea
-                    placeholder="Please explain why you are declining this offer..."
+                    placeholder="Please provide a reason for declining this offer..."
                     value={declineReason}
                     onChange={(e) => setDeclineReason(e.target.value)}
                     className="min-h-[100px]"
