@@ -92,7 +92,6 @@ function LoadingSkeleton() {
       </div>
 
       <div className="space-y-2 text-muted-foreground">
-        <p>• Accessible to government officials, community auditors, NGOs, and general public.</p>
         <p>• Shows all recent blockchain transactions related to housing registry updates.</p>
         <p>• Treasury section displays fund allocations, expenditures, and escrow balances for all CHPs.</p>
       </div>
@@ -261,7 +260,6 @@ export function AuditLogs() {
       </div>
 
       <div className="space-y-2 text-muted-foreground">
-        <p>• Accessible to government officials, community auditors, NGOs, and general public.</p>
         <p>• Shows all recent blockchain transactions related to housing registry updates.</p>
         <p>• Treasury section displays fund allocations, expenditures, and escrow balances for all CHPs.</p>
       </div>
