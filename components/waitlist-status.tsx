@@ -52,7 +52,7 @@ export function WaitlistStatus() {
   return (
     <div className="space-y-4">
       <div className="flex items-center">
-        <h1 className="text-2xl font-bold">📄 Housing Waitlist</h1>
+        <h1 className="text-2xl font-bold">Housing Waitlist</h1>
       </div>
 
       <p className="text-muted-foreground">

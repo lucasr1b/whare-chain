@@ -52,7 +52,7 @@ export function AuditLogs() {
   return (
     <div className="space-y-4">
       <div className="flex items-center">
-        <h1 className="text-2xl font-bold">🔒 MSD Audit Logs</h1>
+        <h1 className="text-2xl font-bold">MSD Audit Logs</h1>
       </div>
 
       <div className="space-y-2 text-muted-foreground">

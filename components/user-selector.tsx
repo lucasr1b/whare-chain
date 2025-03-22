@@ -68,9 +68,10 @@ export function UserSelector() {
               <button
                 key={role.id}
                 onClick={() => handleRoleChange(role.id as UserRole)}
-                className={`w-full text-left px-4 py-3 text-sm hover:bg-accent flex items-center gap-3 ${
-                  role.id === userRole ? "bg-accent/50" : ""
+                className={`w-full text-left px-4 py-3 text-sm hover:bg-[#fcbc00] flex items-center gap-3 ${
+                  role.id === userRole ? "bg-amber-900" : ""
                 }`}
+                
               >
                 <div className={`p-2 rounded-full ${role.id === userRole ? "bg-primary/10" : "bg-muted"}`}>
                   {role.icon && <role.icon className="h-4 w-4" />}

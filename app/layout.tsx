@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "WhareChain",
+  icons: {
+    icon: "/logo.png",
+  },
   description: "Transparent social housing management system for New Zealand",
   generator: 'v0.dev'
 }

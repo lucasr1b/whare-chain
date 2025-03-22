@@ -161,7 +161,7 @@ export function CHPDashboard() {
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h1 className="text-3xl font-bold">🏢 Community Housing Provider</h1>
+        <h1 className="text-3xl font-bold">Community Housing Provider</h1>
         <div className="flex items-center gap-2 bg-muted/50 px-4 py-2 rounded-md">
           <span className="text-muted-foreground">Provider ID:</span>
           <span className="font-medium">{userId || "[0x...CHP1]"}</span>
