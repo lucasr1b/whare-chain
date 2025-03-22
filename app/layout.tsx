@@ -4,13 +4,13 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { UserProvider } from "@/contexts/user-context"
+import { ThirdwebProvider } from "thirdweb/react"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "WhareChain",
   description: "Transparent social housing management system for New Zealand",
-  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -21,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider defaultTheme="dark" disableTransitionOnChange>
-          <UserProvider>{children}</UserProvider>
-        </ThemeProvider>
+        <ThirdwebProvider>
+          <ThemeProvider defaultTheme="dark" disableTransitionOnChange>
+            <UserProvider>{children}</UserProvider>
+          </ThemeProvider>
+        </ThirdwebProvider>
       </body>
     </html>
   )
