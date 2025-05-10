@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 // Sample data for a specific housing unit
 const housingDetail = {
   id: "#H1234",
-  address: "21 Queen Street, Auckland CBD, 1010",
+  address: "123 Queen Street, Auckland CBD, 1010",
   status: "Occupied",
   occupant: "[0x...A3B1]",
   occupancyHistory: [

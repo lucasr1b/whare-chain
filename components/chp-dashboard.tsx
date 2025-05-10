@@ -230,11 +230,14 @@ export function CHPDashboard() {
         address: HOUSING_REGISTRY_ADDRESS,
       })
 
+      const randomPropertyId = "#H" + Math.floor(Math.random() * 10000)
+
+
       const transaction = prepareContractCall({
         contract: registryContract,
         method: "function addProperty(string _id, string _houseAddress, uint256 _bedrooms, uint256 _bathrooms, string[] _features)",
         params: [
-          newProperty.id,
+          randomPropertyId,
           newProperty.address,
           BigInt(newProperty.bedrooms),
           BigInt(newProperty.bathrooms),
@@ -247,9 +250,10 @@ export function CHPDashboard() {
         transaction,
       })
 
+
       // Add property optimistically to the list
       const newPropertyData = {
-        id: newProperty.id,
+        id: randomPropertyId,
         address: newProperty.address,
         bedrooms: parseInt(newProperty.bedrooms),
         bathrooms: parseInt(newProperty.bathrooms),
@@ -661,15 +665,6 @@ export function CHPDashboard() {
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label>Property ID</Label>
-              <Input
-                placeholder="e.g., H1234"
-                value={newProperty.id}
-                onChange={(e) => setNewProperty({ ...newProperty, id: e.target.value })}
-              />
-            </div>
-
-            <div className="space-y-2">
               <Label>Property Address</Label>
               <Input
                 placeholder="e.g., 123 Main Street, Auckland"
@@ -742,7 +737,7 @@ export function CHPDashboard() {
             </Button>
             <Button
               onClick={handleAddProperty}
-              disabled={!newProperty.id || !newProperty.address || isAddingProperty}
+              disabled={!newProperty.address || isAddingProperty}
             >
               {isAddingProperty ? "Adding Property..." : "Add Property"}
             </Button>
